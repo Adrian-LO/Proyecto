@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Reportes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="javascript:history.back()"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="javascript:history.back()">Regresar</a></li>
+        <li><a href="login.html">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h2 class="section-title">Panel de reportes</h2>
+    <p style="max-width:700px;margin:0 auto 2rem;text-align:center;">
+      A continuación encontrarás un resumen de los principales indicadores de tu escuela de natación. Esta información es estática y corresponde a datos de ejemplo, ideal para visualizar cómo lucirán los reportes en el sistema final.
+    </p>
+    <div class="card-grid">
+      <div class="card">
+        <i class="fas fa-users"></i>
+        <h3>Alumnos registrados</h3>
+        <p>2 alumnos activos</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-chalkboard-teacher"></i>
+        <h3>Instructores</h3>
+        <p>2 instructores disponibles</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-calendar-check"></i>
+        <h3>Clases programadas</h3>
+        <p>3 clases esta semana</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-dollar-sign"></i>
+        <h3>Ingresos totales</h3>
+        <p>$12,100 MXN recaudados</p>
+      </div>
+    </div>
+    <div class="form-container" style="margin-top:2rem;">
+      <h3>Detalle de ingresos (ejemplo)</h3>
+      <table style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:var(--primary-color); color:#fff;">
+            <th style="padding:0.5rem; text-align:left;">Alumno</th>
+            <th style="padding:0.5rem; text-align:left;">Concepto</th>
+            <th style="padding:0.5rem; text-align:center;">Fecha</th>
+            <th style="padding:0.5rem; text-align:right;">Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pedro Gómez</td>
+            <td>5 clases</td>
+            <td style="text-align:center;">10/12/2025</td>
+            <td style="text-align:right;">$1,100</td>
+          </tr>
+          <tr>
+            <td>María López</td>
+            <td>10 clases</td>
+            <td style="text-align:center;">08/12/2025</td>
+            <td style="text-align:right;">$2,200</td>
+          </tr>
+          <tr>
+            <td>Pedro Gómez</td>
+            <td>1 clase (extra)</td>
+            <td style="text-align:center;">11/12/2025</td>
+            <td style="text-align:right;">$220</td>
+          </tr>
+          <tr>
+            <td>María López</td>
+            <td>15 clases</td>
+            <td style="text-align:center;">05/12/2025</td>
+            <td style="text-align:right;">$3,300</td>
+          </tr>
+          <tr>
+            <td>Pagos varios</td>
+            <td>Accesorios y material</td>
+            <td style="text-align:center;">06/12/2025</td>
+            <td style="text-align:right;">$5,280</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Gráficos estáticos de ejemplo construidos con barras simples -->
+    <div style="margin-top:2rem;">
+      <h3 style="text-align:center; font-family:'Baloo 2', cursive; color:var(--primary-color); margin-bottom:1rem;">Ingresos por paquete</h3>
+      <div class="chart-bar">
+        <div class="bar" style="height:3%;" data-label="1 clase" data-value="$220"></div>
+        <div class="bar" style="height:17%;" data-label="5 clases" data-value="$1,100"></div>
+        <div class="bar" style="height:33%;" data-label="10 clases" data-value="$2,200"></div>
+        <div class="bar" style="height:50%;" data-label="15 clases" data-value="$3,300"></div>
+        <div class="bar" style="height:100%;" data-label="30 clases" data-value="$6,600"></div>
+      </div>
+      <h3 style="text-align:center; font-family:'Baloo 2', cursive; color:var(--primary-color); margin-top:3rem; margin-bottom:1rem;">Clases vendidas por paquete</h3>
+      <div class="chart-bar">
+        <div class="bar" style="height:3%;" data-label="1 clase" data-value="1 clase"></div>
+        <div class="bar" style="height:17%;" data-label="5 clases" data-value="5 clases"></div>
+        <div class="bar" style="height:33%;" data-label="10 clases" data-value="10 clases"></div>
+        <div class="bar" style="height:50%;" data-label="15 clases" data-value="15 clases"></div>
+        <div class="bar" style="height:100%;" data-label="30 clases" data-value="30 clases"></div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

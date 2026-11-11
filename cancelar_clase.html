@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Cancelar Clase</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="javascript:history.back()"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="javascript:history.back()">Regresar</a></li>
+        <li><a href="login.html">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h2 class="section-title">Cancelar clase</h2>
+    <p style="max-width:700px;margin:0 auto 1.5rem;text-align:center;">
+      A continuación se muestran las clases programadas para los próximos días. Puedes cancelar la clase si ya no la necesitas; esto liberará el horario para otros alumnos. Esta demo actualiza la tabla sin guardar los cambios en ningún lugar.
+    </p>
+    <div class="form-container">
+      <table style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:var(--primary-color); color:#fff;">
+            <th style="padding:0.5rem; text-align:left;">Fecha</th>
+            <th style="padding:0.5rem; text-align:left;">Hora</th>
+            <th style="padding:0.5rem; text-align:left;">Instructor</th>
+            <th style="padding:0.5rem; text-align:left;">Estado</th>
+            <th style="padding:0.5rem; text-align:center;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-cancelar">
+          <tr>
+            <td>15/12/2025</td>
+            <td>09:00</td>
+            <td>Juan Pérez</td>
+            <td>Pendiente</td>
+            <td style="text-align:center;"><button class="form-submit" onclick="cancelarFila(this)">Cancelar</button></td>
+          </tr>
+          <tr>
+            <td>17/12/2025</td>
+            <td>11:00</td>
+            <td>Ana Sánchez</td>
+            <td>Pendiente</td>
+            <td style="text-align:center;"><button class="form-submit" onclick="cancelarFila(this)">Cancelar</button></td>
+          </tr>
+          <tr>
+            <td>19/12/2025</td>
+            <td>15:00</td>
+            <td>Juan Pérez</td>
+            <td>Pendiente</td>
+            <td style="text-align:center;"><button class="form-submit" onclick="cancelarFila(this)">Cancelar</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <div id="mensaje-cancelar" class="message" style="display:none; margin-top:1rem;"></div>
+    </div>
+  </section>
+  <script>
+    function cancelarFila(btn) {
+      const fila = btn.closest('tr');
+      fila.cells[3].textContent = 'Cancelada';
+      btn.disabled = true;
+      btn.textContent = 'Cancelada';
+      const mensaje = document.getElementById('mensaje-cancelar');
+      mensaje.textContent = 'La clase ha sido cancelada. (Demo)';
+      mensaje.style.display = 'block';
+    }
+  </script>
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Panel del Instructor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="home_instructor.html"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="home_instructor.html">Panel</a></li>
+        <li><a href="index.html#contacto">Contacto</a></li>
+        <li><a href="index.html" class="nav-btn" onclick="localStorage.removeItem('usuario')">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">Panel del Instructor</h2>
+    <div class="card-grid">
+      <!-- Registrar Asistencia -->
+      <a class="card" href="asistencia.html">
+        <i class="fas fa-check-square"></i>
+        <h3>Registrar Asistencia</h3>
+        <p>Marca la asistencia y registra observaciones para tus clases.</p>
+      </a>
+      <!-- Registrar Notas de Progreso -->
+      <a class="card" href="notas_progreso.html">
+        <i class="fas fa-clipboard-list"></i>
+        <h3>Notas de Progreso</h3>
+        <p>Registra avances y recomendaciones para cada alumno.</p>
+      </a>
+      <!-- Gestionar Horarios -->
+      <a class="card" href="horarios.html">
+        <i class="fas fa-clock"></i>
+        <h3>Gestionar Horarios</h3>
+        <p>Configura tu disponibilidad semanal para impartir clases.</p>
+      </a>
+      <!-- Calendario -->
+      <a class="card" href="calendario.html">
+        <i class="fas fa-calendar"></i>
+        <h3>Calendario</h3>
+        <p>Consulta tu calendario de clases y reserva espacios disponibles.</p>
+      </a>
+      <!-- Historial de Alumnos -->
+      <a class="card" href="historial_instructor.html">
+        <i class="fas fa-book-open"></i>
+        <h3>Historial de Alumnos</h3>
+        <p>Consulta las clases impartidas y observa el progreso de tus alumnos (sin datos de pago).</p>
+      </a>
+      <!-- Ausencias Justificadas -->
+      <a class="card" href="ausencias.html">
+        <i class="fas fa-user-clock"></i>
+        <h3>Ausencias Justificadas</h3>
+        <p>Marca ausencias justificadas para evitar penalizaciones al alumno.</p>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

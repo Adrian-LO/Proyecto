@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Panel del Administrador</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="home_admin.html"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="home_admin.html">Panel</a></li>
+        <li><a href="index.html#contacto">Contacto</a></li>
+        <li><a href="index.html" class="nav-btn" onclick="localStorage.removeItem('usuario')">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">Panel del Administrador</h2>
+    <div class="card-grid">
+      <!-- Registrar Alumno -->
+      <a class="card" href="registro_admin.html">
+        <i class="fas fa-user-plus"></i>
+        <h3>Registrar Alumno</h3>
+        <p>Da de alta a nuevos alumnos menores o adultos y gestiona sus datos.</p>
+      </a>
+      <!-- Registrar Instructor -->
+      <a class="card" href="instructor.html">
+        <i class="fas fa-chalkboard-teacher"></i>
+        <h3>Registrar Instructor</h3>
+        <p>Captura información personal, profesional y disponibilidad de tus instructores.</p>
+      </a>
+      <!-- Registrar Recepcionista -->
+      <a class="card" href="registrar_recepcionista.html">
+        <i class="fas fa-user-tie"></i>
+        <h3>Registrar Recepcionista</h3>
+        <p>Crea cuentas de recepción para gestionar alumnos, clases y pagos.</p>
+      </a>
+      <!-- Programar Clase -->
+      <a class="card" href="programar_clase.html">
+        <i class="fas fa-calendar-plus"></i>
+        <h3>Programar Clase</h3>
+        <p>Agenda clases asignando fecha, hora e instructor disponible.</p>
+      </a>
+      <!-- Cancelar Clase -->
+      <a class="card" href="cancelar_clase.html">
+        <i class="fas fa-calendar-minus"></i>
+        <h3>Cancelar Clase</h3>
+        <p>Gestiona cancelaciones de clases según las políticas de la escuela.</p>
+      </a>
+      <!-- Registrar Pago -->
+      <a class="card" href="registrar_pago.html">
+        <i class="fas fa-credit-card"></i>
+        <h3>Registrar Pago</h3>
+        <p>Registra ingresos de colegiaturas, paquetes o accesorios y emite recibos.</p>
+      </a>
+      <!-- Crear Paquetes -->
+      <a class="card" href="crear_paquete.html">
+        <i class="fas fa-box-open"></i>
+        <h3>Crear Paquetes</h3>
+        <p>Define y administra paquetes de clases con precios y vigencias.</p>
+      </a>
+      <!-- Reportes -->
+      <a class="card" href="reportes.html">
+        <i class="fas fa-chart-line"></i>
+        <h3>Reportes</h3>
+        <p>Genera informes de asistencia, ingresos y ocupación para la toma de decisiones.</p>
+      </a>
+      <!-- Calendario -->
+      <a class="card" href="calendario.html">
+        <i class="fas fa-calendar"></i>
+        <h3>Calendario</h3>
+        <p>Visualiza el calendario semanal de clases y disponibilidad de instructores.</p>
+      </a>
+      <!-- Facturación -->
+      <a class="card" href="facturacion.html">
+        <i class="fas fa-file-invoice-dollar"></i>
+        <h3>Facturación</h3>
+        <p>Emite facturas fiscales de pagos registrados y envíalas por correo.</p>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

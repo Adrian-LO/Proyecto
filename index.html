@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Bienvenido</title>
+  <!-- Font Awesome para iconografía -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <!-- Hoja de estilos compartida -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Encabezado con navegación -->
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#instructores">Instructores</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <!-- Enlace a la sección de paquetes en esta misma página -->
+        <li><a href="#paquetes">Paquetes</a></li>
+        <li><a href="registro.html" class="nav-btn">Registro</a></li>
+        <li><a href="login.html" class="nav-btn">Iniciar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Sección principal tipo hero -->
+  <section class="hero" id="inicio">
+    <h1>AquaAgenda</h1>
+    <p>
+      Controla tu escuela de natación de forma profesional y divertida. Organiza
+      horarios, alumnos, instructores y pagos con un solo sistema.
+    </p>
+    <a class="btn" href="#servicios">Conoce nuestros servicios</a>
+  </section>
+
+
+
+
+  <!-- Sección de servicios (primero para los visitantes) -->
+  <section class="section" id="servicios">
+    <h2 class="section-title">Nuestros servicios</h2>
+    <p style="text-align:center; max-width:700px; margin:0 auto 1.5rem;">
+      En AquaAgenda ofrecemos una experiencia integral para nuestros alumnos:
+    </p>
+    <div class="card-grid">
+      <div class="card">
+        <i class="fas fa-calendar-plus"></i>
+        <h3>Reserva de clases</h3>
+        <p>Programa tus clases fácilmente eligiendo fecha, hora e instructor disponible.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-calendar-minus"></i>
+        <h3>Cancelación de clases</h3>
+        <p>Cancela tus clases programadas siguiendo las políticas de la escuela.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-shopping-cart"></i>
+        <h3>Paquetes y accesorios</h3>
+        <p>Adquiere paquetes de clases y accesorios para complementar tus entrenamientos.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-file-invoice-dollar"></i>
+        <h3>Facturación</h3>
+        <p>Solicita facturas fiscales y recibe tus comprobantes de pago en tu correo.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-chart-line"></i>
+        <h3>Seguimiento de progreso</h3>
+        <p>Consulta tus notas de progreso registradas por tus instructores.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de instructores destacados -->
+  <section class="section" id="instructores">
+    <h2 class="section-title">Nuestros instructores</h2>
+    <div class="card-grid">
+      <div class="card">
+        <i class="fas fa-swimmer"></i>
+        <h3>Juan Pérez</h3>
+        <p>Especialista en natación para adultos y niños principiantes. 5 años de experiencia.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-swimmer"></i>
+        <h3>Ana Sánchez</h3>
+        <p>Entrenadora profesional con certificación internacional. Enfocada en técnica y estilo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de paquetes. Ubicada después de instructores para que los visitantes puedan conocer
+       nuestras opciones rápidamente. Cada paquete incluye un botón de reserva que maneja la
+       lógica de inicio de sesión y compra: si el visitante no ha iniciado sesión se le
+       redirige a la página de inicio de sesión; si ya está autenticado se le lleva
+       directamente a la página de compra con el paquete preseleccionado. -->
+  <section class="section" id="paquetes">
+    <h2 class="section-title">Nuestros paquetes</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>1 clase</h3>
+        <p><strong>$220 MXN</strong></p>
+        <button class="btn package-btn" onclick="reservarPaquete('1 clase', 220)">Comprar</button>
+      </div>
+      <div class="card">
+        <h3>5 clases</h3>
+        <p><strong>$1,100 MXN</strong></p>
+        <button class="btn package-btn" onclick="reservarPaquete('5 clases', 1100)">Comprar</button>
+      </div>
+      <div class="card">
+        <h3>10 clases</h3>
+        <p><strong>$2,200 MXN</strong></p>
+        <button class="btn package-btn" onclick="reservarPaquete('10 clases', 2200)">Comprar</button>
+      </div>
+      <div class="card">
+        <h3>15 clases</h3>
+        <p><strong>$3,300 MXN</strong></p>
+        <button class="btn package-btn" onclick="reservarPaquete('15 clases', 3300)">Comprar</button>
+      </div>
+      <div class="card">
+        <h3>30 clases</h3>
+        <p><strong>$6,600 MXN</strong></p>
+        <button class="btn package-btn" onclick="reservarPaquete('30 clases', 6600)">Comprar</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Sección de llamado a la acción -->
+  <section class="section" id="cta">
+    <h2 class="section-title">Únete a la familia AquaAgenda</h2>
+    <p style="text-align:center; max-width:700px; margin:0 auto 2rem;">
+      Regístrate como alumno o inicia sesión para reservar tus clases, gestionar tus horarios y llevar el control de tus avances. ¡Nuestro sistema está listo para ayudarte a alcanzar tus metas!
+    </p>
+    <div style="display:flex; justify-content:center; gap:1rem;">
+      <a class="btn" href="registro.html" style="text-decoration:none;">Registrarme</a>
+      <a class="btn" href="login.html" style="text-decoration:none;">Iniciar sesión</a>
+    </div>
+  </section>
+
+  <!-- Sección de contacto independiente -->
+  <section class="section" id="contacto">
+    <h2 class="section-title">Contacto</h2>
+    <div style="display:flex; flex-wrap:wrap; gap:2rem; align-items:flex-start; justify-content:center;">
+      <div style="flex:1; min-width:250px;">
+        <h3 style="font-family:'Baloo 2', cursive; color:var(--primary-color);">Contáctanos</h3>
+        <p><strong>Teléfono:</strong> <a href="tel:6688824816" style="color:var(--primary-color); text-decoration:none;">668&nbsp;882&nbsp;4816</a></p>
+        <p><strong>Dirección:</strong> Agustín&nbsp;Melgar&nbsp;#1411, Jardines&nbsp;del&nbsp;Sol, 81265&nbsp;Los&nbsp;Mochis, Sin.</p>
+      </div>
+      <div style="flex:1; min-width:300px;">
+        <iframe
+          src="https://www.google.com/maps?q=Mi+mundo+acuatico&output=embed"
+          width="100%" height="250" style="border:0; border-radius:10px;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+
+  <!-- Script para manejar la reserva de paquetes desde la página de inicio.  Cuando el
+       visitante pulsa "Reservar" en cualquiera de los paquetes, se guarda la
+       información del paquete en localStorage.  Si no hay una sesión activa,
+       se guarda un indicador de paquete pendiente y se redirige a la página de inicio de
+       sesión.  Si ya hay sesión activa se envía directamente a la página de compra. -->
+  <script>
+    function reservarPaquete(nombre, precio) {
+      // Guardar detalles del paquete en localStorage para recuperarlos luego
+      localStorage.setItem('pkgNombre', nombre);
+      localStorage.setItem('pkgPrecio', precio);
+      // Comprobar si hay un usuario en sesión
+      const usuarioJSON = localStorage.getItem('usuario');
+      if (!usuarioJSON) {
+        // No hay sesión: marcar que hay una reserva pendiente y redirigir a login
+        localStorage.setItem('pendientePaquete', 'true');
+        window.location.href = 'login.html';
+      } else {
+        // Hay sesión: ir directamente a la página de compra
+        window.location.href = 'comprar_paquetes.html';
+      }
+    }
+  </script>
+</body>
+</html>

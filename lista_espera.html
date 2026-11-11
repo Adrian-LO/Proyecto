@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Lista de Espera</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="javascript:history.back()"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="javascript:history.back()">Regresar</a></li>
+        <li><a href="login.html">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h2 class="section-title">Lista de espera</h2>
+    <p style="max-width:700px;margin:0 auto 2rem;text-align:center;">
+      Aquí se muestra una lista de ejemplo de alumnos que esperan un lugar en clases actualmente llenas. Puedes asignar un cupo liberado a un alumno de la lista. Esta demo no persiste datos, pero ilustra la dinámica de la funcionalidad.
+    </p>
+    <div class="form-container">
+      <table style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:var(--primary-color); color:#fff;">
+            <th style="padding:0.5rem; text-align:left;">Alumno</th>
+            <th style="padding:0.5rem; text-align:left;">Clase solicitada</th>
+            <th style="padding:0.5rem; text-align:center;">Estado</th>
+            <th style="padding:0.5rem; text-align:center;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-espera">
+          <!-- Las filas se insertarán dinámicamente usando JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <script>
+    /**
+     * Formatea una fecha ISO (YYYY-MM-DD) a DD/MM/YYYY para visualización.
+     */
+    function formatearFecha(fechaISO) {
+      const [year, month, day] = fechaISO.split('-');
+      return `${day}/${month}/${year}`;
+    }
+
+    /**
+     * Carga la lista de espera almacenada en localStorage y renderiza
+     * dinámicamente las filas en la tabla. Si no hay elementos,
+     * muestra un mensaje indicativo.
+     */
+    function cargarLista() {
+      const lista = JSON.parse(localStorage.getItem('listaEspera')) || [];
+      const tbody = document.getElementById('tabla-espera');
+      tbody.innerHTML = '';
+      if (lista.length === 0) {
+        const filaVacia = document.createElement('tr');
+        const celda = document.createElement('td');
+        celda.colSpan = 4;
+        celda.style.textAlign = 'center';
+        celda.style.padding = '1rem';
+        celda.textContent = 'No hay alumnos en la lista de espera.';
+        filaVacia.appendChild(celda);
+        tbody.appendChild(filaVacia);
+        return;
+      }
+      lista.forEach((item, index) => {
+        const tr = document.createElement('tr');
+        const celAlumno = document.createElement('td');
+        celAlumno.textContent = item.alumno;
+        const celClase = document.createElement('td');
+        celClase.textContent = `${formatearFecha(item.fecha)} – ${item.hora} – ${item.instructor}`;
+        const celEstado = document.createElement('td');
+        celEstado.style.textAlign = 'center';
+        celEstado.textContent = 'En espera';
+        const celAccion = document.createElement('td');
+        celAccion.style.textAlign = 'center';
+        const btn = document.createElement('button');
+        btn.className = 'form-submit';
+        btn.textContent = 'Asignar';
+        btn.onclick = () => asignarCupo(index);
+        celAccion.appendChild(btn);
+        tr.appendChild(celAlumno);
+        tr.appendChild(celClase);
+        tr.appendChild(celEstado);
+        tr.appendChild(celAccion);
+        tbody.appendChild(tr);
+      });
+    }
+
+    /**
+     * Asigna un cupo al alumno en la posición indicada de la lista de espera,
+     * elimina la entrada y recarga la tabla.
+     */
+    function asignarCupo(indice) {
+      const lista = JSON.parse(localStorage.getItem('listaEspera')) || [];
+      if (indice >= 0 && indice < lista.length) {
+        lista.splice(indice, 1);
+        localStorage.setItem('listaEspera', JSON.stringify(lista));
+        cargarLista();
+      }
+    }
+
+    // Carga la lista de espera al cargar la página
+    window.addEventListener('DOMContentLoaded', cargarLista);
+  </script>
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

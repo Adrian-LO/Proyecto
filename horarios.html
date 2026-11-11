@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Gestionar Horarios</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="javascript:history.back()"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="javascript:history.back()">Regresar</a></li>
+        <li><a href="login.html">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h2 class="section-title">Gestionar horarios de instructores</h2>
+    <p style="max-width:700px;margin:0 auto 1.5rem;text-align:center;">
+      Selecciona un instructor y modifica su disponibilidad semanal. Marca las horas en las que puede impartir clases. Esta demo no guarda los cambios de forma permanente, pero muestra el flujo general.
+    </p>
+    <div class="form-container">
+      <div class="form-group">
+        <label for="select-instructor">Instructor</label>
+        <select id="select-instructor" onchange="mostrarHorario()">
+          <option value="" disabled selected>Selecciona un instructor</option>
+          <option value="juan">Juan Pérez</option>
+          <option value="ana">Ana Sánchez</option>
+        </select>
+      </div>
+      <div id="contenedor-horario" style="overflow-x:auto;"></div>
+      <div class="form-actions" style="margin-top:1rem;">
+        <button class="form-submit" type="button" onclick="guardarHorario()">Guardar cambios</button>
+        <a href="javascript:history.back()" class="form-submit" style="background:var(--accent-color);color:var(--dark-color);text-decoration:none;text-align:center;">Cancelar</a>
+      </div>
+      <div id="mensaje-horario" class="message" style="display:none;"></div>
+    </div>
+  </section>
+  <script>
+    // Datos de disponibilidad por defecto (lunes-viernes 9-12 Juan, 16-18 Ana etc.)
+    const disponibilidad = {
+      juan: {
+        'Lunes 09:00': true,
+        'Martes 09:00': true,
+        'Miércoles 09:00': true,
+        'Jueves 09:00': true,
+        'Viernes 09:00': true,
+        'Lunes 15:00': true,
+        'Miércoles 15:00': true,
+        'Viernes 15:00': true
+      },
+      ana: {
+        'Martes 11:00': true,
+        'Miércoles 11:00': true,
+        'Jueves 11:00': true,
+        'Lunes 17:00': true,
+        'Miércoles 17:00': true,
+        'Viernes 17:00': true
+      }
+    };
+    function mostrarHorario() {
+      const instructor = document.getElementById('select-instructor').value;
+      const contenedor = document.getElementById('contenedor-horario');
+      contenedor.innerHTML = '';
+      if (!instructor) return;
+      // Crear tabla de horarios: días vs horas predefinidas
+      const dias = ['Lunes','Martes','Miércoles','Jueves','Viernes'];
+      const horas = ['08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00'];
+      const table = document.createElement('table');
+      table.style.width = '100%';
+      table.style.borderCollapse = 'collapse';
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      const thEmpty = document.createElement('th');
+      headerRow.appendChild(thEmpty);
+      dias.forEach(dia => {
+        const th = document.createElement('th');
+        th.textContent = dia;
+        th.style.padding = '0.5rem';
+        th.style.background = 'var(--primary-color)';
+        th.style.color = '#fff';
+        th.style.textAlign = 'center';
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+      const tbody = document.createElement('tbody');
+      horas.forEach(hora => {
+        const row = document.createElement('tr');
+        const thHora = document.createElement('th');
+        thHora.textContent = hora;
+        thHora.style.padding = '0.5rem';
+        thHora.style.background = 'var(--gray-color)';
+        thHora.style.textAlign = 'right';
+        row.appendChild(thHora);
+        dias.forEach(dia => {
+          const key = `${dia} ${hora}`;
+          const cell = document.createElement('td');
+          cell.style.textAlign = 'center';
+          cell.style.border = '1px solid #ddd';
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.name = `horario-${instructor}-${key}`;
+          checkbox.checked = disponibilidad[instructor][key] || false;
+          cell.appendChild(checkbox);
+          row.appendChild(cell);
+        });
+        tbody.appendChild(row);
+      });
+      table.appendChild(tbody);
+      contenedor.appendChild(table);
+    }
+    function guardarHorario() {
+      const instructor = document.getElementById('select-instructor').value;
+      if (!instructor) return;
+      // Recorrer checkboxes para actualizar disponibilidad (demo)
+      const checkboxes = document.querySelectorAll(`#contenedor-horario input[type="checkbox"]`);
+      checkboxes.forEach(cb => {
+        const name = cb.name.replace(`horario-${instructor}-`, '');
+        disponibilidad[instructor][name] = cb.checked;
+      });
+      const mensaje = document.getElementById('mensaje-horario');
+      mensaje.textContent = `Disponibilidad actualizada para ${instructor}. (Demo)`;
+      mensaje.style.display = 'block';
+    }
+  </script>
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Programar Clase</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="javascript:history.back()"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="javascript:history.back()">Regresar</a></li>
+        <li><a href="login.html">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h2 class="section-title">Programar clase</h2>
+    <p style="max-width:600px;margin:0 auto 2rem;text-align:center;">
+      Usa el siguiente formulario para programar una clase. Selecciona la fecha y la hora deseadas, así como el instructor y el alumno que tomará la clase. Este ejemplo no almacena datos en una base de datos, pero te permite visualizar cómo funcionaría el flujo.
+    </p>
+    <div class="form-container">
+      <form onsubmit="programarClase(event)">
+        <div class="form-group">
+          <label for="fecha">Fecha</label>
+          <input type="date" id="fecha" required />
+        </div>
+        <div class="form-group">
+          <label for="hora">Hora</label>
+          <input type="time" id="hora" required />
+        </div>
+        <div class="form-group">
+          <label for="instructor">Instructor</label>
+          <select id="instructor" required>
+            <option value="" disabled selected>Selecciona un instructor</option>
+            <option>Juan Pérez</option>
+            <option>Ana Sánchez</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="alumno">Alumno</label>
+          <select id="alumno" required>
+            <option value="" disabled selected>Selecciona un alumno</option>
+            <option>Pedro Gómez</option>
+            <option>María López</option>
+          </select>
+        </div>
+        <!-- El campo de paquete se eliminó porque la programación siempre es para una clase individual -->
+        <div class="form-actions">
+          <button type="submit" class="form-submit">Guardar clase</button>
+          <a href="javascript:history.back()" class="form-submit" style="background:var(--accent-color);color:var(--dark-color);text-decoration:none;text-align:center;">Cancelar</a>
+        </div>
+      </form>
+      <div id="mensaje-programar" class="message" style="display:none;"></div>
+    </div>
+  </section>
+  <script>
+    // Al cargar la página, precargar valores desde localStorage y ocultar select de alumno si se conoce el perfil
+    document.addEventListener('DOMContentLoaded', () => {
+      // Prefill date/time/instructor from reserva (si existe)
+      const fechaRes = localStorage.getItem('reservaFecha');
+      const horaRes = localStorage.getItem('reservaHora');
+      const instructorRes = localStorage.getItem('reservaInstructor');
+      if (fechaRes) {
+        document.getElementById('fecha').value = fechaRes;
+        localStorage.removeItem('reservaFecha');
+      }
+      if (horaRes) {
+        document.getElementById('hora').value = horaRes;
+        localStorage.removeItem('reservaHora');
+      }
+      if (instructorRes) {
+        const instructorSelect = document.getElementById('instructor');
+        for (let i = 0; i < instructorSelect.options.length; i++) {
+          if (instructorSelect.options[i].text === instructorRes) {
+            instructorSelect.selectedIndex = i;
+            break;
+          }
+        }
+        localStorage.removeItem('reservaInstructor');
+      }
+      // Autocompletar nombre del alumno para cliente; se podría tomar de localStorage
+      const cliente = localStorage.getItem('clienteNombre') || 'Pedro Gómez';
+      const alumnoSelect = document.getElementById('alumno');
+      for (let i = 0; i < alumnoSelect.options.length; i++) {
+        if (alumnoSelect.options[i].text === cliente) {
+          alumnoSelect.selectedIndex = i;
+          break;
+        }
+      }
+      // Deshabilitar cambio de alumno para cliente
+      alumnoSelect.disabled = true;
+    });
+
+    // Función demo para programar clase. Solo muestra un mensaje en pantalla.
+    function programarClase(event) {
+      event.preventDefault();
+      const fecha = document.getElementById('fecha').value;
+      const hora = document.getElementById('hora').value;
+      const instructor = document.getElementById('instructor').value;
+      const alumno = document.getElementById('alumno').value;
+      const mensaje = document.getElementById('mensaje-programar');
+      mensaje.textContent = `Clase programada para ${alumno} el ${fecha} a las ${hora} con ${instructor}.`;
+      mensaje.style.display = 'block';
+      // Opcional: limpiar seleccionados
+      event.target.reset();
+    }
+  </script>
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

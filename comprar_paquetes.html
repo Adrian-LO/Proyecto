@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Comprar Paquetes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="javascript:history.back()"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="javascript:history.back()">Regresar</a></li>
+        <li><a href="index.html" class="nav-btn" onclick="localStorage.removeItem('usuario')">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h2 class="section-title">Comprar paquetes de clases</h2>
+    <p style="max-width:700px;margin:0 auto 1.5rem;text-align:center;">
+      Selecciona el paquete que deseas adquirir. Esta demo no realiza pagos reales, pero simula la experiencia completa de compra.
+    </p>
+    <!-- Lista de paquetes disponibles en formato tarjeta -->
+    <div id="paquetes-grid" class="card-grid">
+      <div class="card">
+        <h3>1 clase</h3>
+        <p>Acceso a 1 clase</p>
+        <p>Expira en 7 días</p>
+        <p><strong>$220 MXN</strong></p>
+        <button type="button" class="form-submit" onclick="seleccionarPaquete('1 clase', 220)">Comprar</button>
+      </div>
+      <div class="card">
+        <h3>5 clases</h3>
+        <p>Acceso a 5 clases</p>
+        <p>Expira en 15 días</p>
+        <p><strong>$1,100 MXN</strong></p>
+        <button type="button" class="form-submit" onclick="seleccionarPaquete('5 clases', 1100)">Comprar</button>
+      </div>
+      <div class="card">
+        <h3>10 clases</h3>
+        <p>Acceso a 10 clases</p>
+        <p>Expira en 30 días</p>
+        <p><strong>$2,200 MXN</strong></p>
+        <button type="button" class="form-submit" onclick="seleccionarPaquete('10 clases', 2200)">Comprar</button>
+      </div>
+      <div class="card">
+        <h3>15 clases</h3>
+        <p>Acceso a 15 clases</p>
+        <p>Expira en 30 días</p>
+        <p><strong>$3,300 MXN</strong></p>
+        <button type="button" class="form-submit" onclick="seleccionarPaquete('15 clases', 3300)">Comprar</button>
+      </div>
+      <div class="card">
+        <h3>30 clases</h3>
+        <p>Acceso a 30 clases</p>
+        <p>Expira en 60 días</p>
+        <p><strong>$6,600 MXN</strong></p>
+        <button type="button" class="form-submit" onclick="seleccionarPaquete('30 clases', 6600)">Comprar</button>
+      </div>
+    </div>
+
+    <!-- Formulario para proceder al pago del paquete seleccionado -->
+    <div id="form-compra" class="form-container" style="display:none; margin-top:2rem;">
+      <h3>Proceder a la compra</h3>
+      <p id="detalle-paquete" style="margin-bottom:1rem;"></p>
+      <form onsubmit="finalizarCompra(event)">
+        <div class="form-group">
+          <label for="metodo-compra">Método de pago</label>
+          <select id="metodo-compra" onchange="actualizarCamposMetodoCompra()" required>
+            <option value="" disabled selected>Selecciona un método</option>
+            <option>Efectivo</option>
+            <option>Tarjeta</option>
+            <option>Transferencia</option>
+          </select>
+        </div>
+        <div id="campos-metodo-compra"></div>
+        <div class="form-group">
+          <label for="monto-compra">Total</label>
+          <input type="text" id="monto-compra" readonly />
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="form-submit">Pagar</button>
+          <button type="button" class="form-submit" style="background:var(--accent-color);color:var(--dark-color);" onclick="cancelarCompra()">Cancelar</button>
+        </div>
+      </form>
+      <div id="mensaje-compra" class="message" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- Script que comprueba si hay un paquete en localStorage al cargar la página. Si existe,
+       llama a seleccionarPaquete para precargar el formulario. Después limpia el almacenamiento. -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const nombre = localStorage.getItem('pkgNombre');
+      const precio = localStorage.getItem('pkgPrecio');
+      if (nombre && precio) {
+        seleccionarPaquete(nombre, parseFloat(precio));
+        localStorage.removeItem('pkgNombre');
+        localStorage.removeItem('pkgPrecio');
+      }
+    });
+  </script>
+  <script>
+    // Variables globales para paquete seleccionado
+    let paqueteSeleccionado = null;
+
+    // Muestra el formulario de compra con los datos del paquete
+    function seleccionarPaquete(nombre, precio) {
+      paqueteSeleccionado = { nombre, precio };
+      const detalle = document.getElementById('detalle-paquete');
+      const montoInput = document.getElementById('monto-compra');
+      detalle.textContent = `${nombre} – $${precio.toLocaleString('es-MX')} MXN`;
+      montoInput.value = `$${precio.toLocaleString('es-MX')}`;
+      document.getElementById('form-compra').style.display = 'block';
+      document.getElementById('campos-metodo-compra').innerHTML = '';
+      document.getElementById('metodo-compra').value = '';
+      document.getElementById('mensaje-compra').style.display = 'none';
+      // Desplazar al formulario
+      document.getElementById('form-compra').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Muestra campos adicionales según el método de pago seleccionado
+    function actualizarCamposMetodoCompra() {
+      const metodo = document.getElementById('metodo-compra').value;
+      const cont = document.getElementById('campos-metodo-compra');
+      cont.innerHTML = '';
+      if (metodo === 'Tarjeta') {
+        cont.innerHTML = `
+          <div class="form-group">
+            <label for="tarjeta-nombre">Nombre en tarjeta</label>
+            <input type="text" id="tarjeta-nombre" placeholder="Nombre completo" required />
+          </div>
+          <div class="form-group">
+            <label for="tarjeta-numero">Número de tarjeta</label>
+            <input type="text" id="tarjeta-numero" placeholder="XXXX XXXX XXXX XXXX" required />
+          </div>
+          <div class="form-group" style="display:flex; gap:1rem;">
+            <div style="flex:1;">
+              <label for="tarjeta-expira">Fecha de expiración</label>
+              <input type="month" id="tarjeta-expira" required />
+            </div>
+            <div style="flex:1;">
+              <label for="tarjeta-cvv">CVV</label>
+              <input type="text" id="tarjeta-cvv" placeholder="123" required />
+            </div>
+          </div>
+        `;
+      } else if (metodo === 'Efectivo') {
+        const orden = 'ORD-' + Math.floor(10000 + Math.random() * 90000);
+        cont.innerHTML = `
+          <div class="form-group">
+            <label>Número de orden</label>
+            <input type="text" id="pago-orden-compra" value="${orden}" readonly />
+            <small>Presenta este número al pagar en caja.</small>
+          </div>
+        `;
+      } else if (metodo === 'Transferencia') {
+        cont.innerHTML = `
+          <div class="form-group">
+            <label for="pago-referencia-compra">Referencia de transferencia</label>
+            <input type="text" id="pago-referencia-compra" placeholder="REF123456" required />
+          </div>
+          <div class="form-group">
+            <label for="pago-comprobante-compra">Comprobante de pago</label>
+            <input type="file" id="pago-comprobante-compra" accept="image/*,application/pdf" required />
+          </div>
+        `;
+      }
+    }
+
+    // Cancela la compra y oculta el formulario
+    function cancelarCompra() {
+      document.getElementById('form-compra').style.display = 'none';
+      document.getElementById('campos-metodo-compra').innerHTML = '';
+      document.getElementById('metodo-compra').value = '';
+      document.getElementById('mensaje-compra').style.display = 'none';
+    }
+
+    // Finaliza la compra mostrando un mensaje de confirmación
+    function finalizarCompra(event) {
+      event.preventDefault();
+      const metodo = document.getElementById('metodo-compra').value;
+      let detallesMetodo = '';
+      if (metodo === 'Tarjeta') {
+        const num = document.getElementById('tarjeta-numero').value;
+        const ultimos = num.slice(-4);
+        detallesMetodo = 'Tarjeta terminada en ' + ultimos;
+      } else if (metodo === 'Efectivo') {
+        detallesMetodo = document.getElementById('pago-orden-compra').value;
+      } else if (metodo === 'Transferencia') {
+        detallesMetodo = document.getElementById('pago-referencia-compra').value;
+      }
+      const mensaje = document.getElementById('mensaje-compra');
+      mensaje.textContent = `Compra realizada: ${paqueteSeleccionado.nombre} – $${paqueteSeleccionado.precio.toLocaleString('es-MX')} MXN por ${metodo}. ${detallesMetodo ? 'Detalles: ' + detallesMetodo + '.' : ''} Gracias por tu compra.`;
+      mensaje.style.display = 'block';
+      // Reset form fields except package selection
+      event.target.reset();
+      document.getElementById('campos-metodo-compra').innerHTML = '';
+
+      // Guardar la compra en localStorage para facturación futura
+      try {
+        const usuarioStr = localStorage.getItem('usuario');
+        if (usuarioStr && paqueteSeleccionado) {
+          const usuario = JSON.parse(usuarioStr);
+          const compras = JSON.parse(localStorage.getItem('compras') || '[]');
+          compras.push({
+            cliente: usuario.usuario,
+            paquete: paqueteSeleccionado.nombre,
+            monto: paqueteSeleccionado.precio,
+            fecha: new Date().toISOString().split('T')[0]
+          });
+          localStorage.setItem('compras', JSON.stringify(compras));
+        }
+      } catch (err) {
+        console.error('Error al guardar la compra:', err);
+      }
+    }
+  </script>
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Calendario</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="javascript:history.back()"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="javascript:history.back()">Regresar</a></li>
+        <li><a href="login.html">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h2 class="section-title">Calendario de clases</h2>
+    <p style="max-width:700px;margin:0 auto 1rem;text-align:center;">
+      Visualiza el calendario semanal de clases. Puedes cambiar de semana y filtrar por instructor. Haz clic en una clase para ver los detalles o reservar si está disponible.
+    </p>
+    <div class="form-container" style="overflow-x:auto;">
+      <!-- Controles del calendario -->
+      <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <div>
+          <button class="form-submit" type="button" onclick="cambiarSemana(-1)">&lt; Semana anterior</button>
+          <span id="titulo-semana" style="margin:0 1rem;font-weight:600;"></span>
+          <button class="form-submit" type="button" onclick="cambiarSemana(1)">Semana siguiente &gt;</button>
+        </div>
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <label for="filtro-instructor" style="font-weight:600;">Instructor:</label>
+          <select id="filtro-instructor" onchange="renderCalendario()">
+            <option value="todos">Todos</option>
+            <option value="Juan Pérez">Juan Pérez</option>
+            <option value="Ana Sánchez">Ana Sánchez</option>
+          </select>
+        </div>
+      </div>
+      <!-- Tabla de calendario -->
+      <table id="tabla-calendario" style="width:100%; border-collapse:collapse;">
+        <!-- La tabla se generará dinámicamente -->
+      </table>
+    </div>
+    <!-- Modal o panel de detalles -->
+    <div id="detalle-clase" class="form-container" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); max-width:400px; z-index:2000;">
+      <h3>Detalles de la clase</h3>
+      <p id="detalle-texto"></p>
+      <div class="form-actions">
+        <button class="form-submit" type="button" onclick="cerrarDetalle()">Cerrar</button>
+        <button class="form-submit" type="button" id="btn-reservar" onclick="reservarClase()" style="display:none;">Reservar</button>
+        <!-- Botón para agregar a lista de espera cuando la clase está llena -->
+        <button class="form-submit" type="button" id="btn-lista-espera" onclick="redirigirCrearLista()" style="display:none;">Lista de espera</button>
+      </div>
+    </div>
+    <div id="overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:1000;" onclick="cerrarDetalle()"></div>
+  </section>
+
+  <script>
+    // Datos de muestra de clases programadas
+    const clasesDemo = [
+      { fecha: '2025-12-15', hora: '09:00', instructor: 'Juan Pérez', alumno: 'Pedro Gómez', estado: 'No disponible' },
+      { fecha: '2025-12-17', hora: '11:00', instructor: 'Ana Sánchez', alumno: '', estado: 'Disponible' },
+      { fecha: '2025-12-19', hora: '15:00', instructor: 'Juan Pérez', alumno: '', estado: 'Disponible' }
+    ];
+    // Manejo de la semana actual (0 = semana actual)
+    let offsetSemana = 0;
+    function startOfWeek(date) {
+      const d = new Date(date);
+      const day = d.getDay(); // 0=domingo
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1); // ajustar para lunes
+      return new Date(d.setDate(diff));
+    }
+    function formatDateISO(date) {
+      return date.toISOString().split('T')[0];
+    }
+    function cambiarSemana(direccion) {
+      offsetSemana += direccion;
+      renderCalendario();
+    }
+    function renderCalendario() {
+      const filtro = document.getElementById('filtro-instructor').value;
+      const tabla = document.getElementById('tabla-calendario');
+      tabla.innerHTML = '';
+      // calcular inicio de la semana
+      const hoy = new Date();
+      const lunes = startOfWeek(new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() + offsetSemana * 7));
+      const dias = [];
+      for (let i = 0; i < 7; i++) {
+        const dia = new Date(lunes);
+        dia.setDate(lunes.getDate() + i);
+        dias.push(dia);
+      }
+      // Título de la semana
+      const opcionesFecha = { day: '2-digit', month: 'short' };
+      const inicioStr = dias[0].toLocaleDateString('es-MX', opcionesFecha);
+      const finStr = dias[6].toLocaleDateString('es-MX', opcionesFecha);
+      document.getElementById('titulo-semana').textContent = `${inicioStr} - ${finStr}`;
+      // Filas de horas (8 a 18)
+      const horas = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+      // Cabecera
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      const thEmpty = document.createElement('th');
+      thEmpty.style.padding = '0.5rem';
+      headerRow.appendChild(thEmpty);
+      const diasSemana = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+      dias.forEach((dia, idx) => {
+        const th = document.createElement('th');
+        th.textContent = `${diasSemana[idx]}\n${dia.getDate()}/${dia.getMonth()+1}`;
+        th.style.padding = '0.5rem';
+        th.style.textAlign = 'center';
+        th.style.background = 'var(--primary-color)';
+        th.style.color = '#fff';
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      tabla.appendChild(thead);
+      const tbody = document.createElement('tbody');
+      horas.forEach(hora => {
+        const row = document.createElement('tr');
+        // Celda de hora
+        const horaCell = document.createElement('th');
+        horaCell.textContent = hora;
+        horaCell.style.padding = '0.5rem';
+        // Utiliza la misma paleta de colores que las tablas globales
+        horaCell.style.background = 'var(--table-row-odd)';
+        horaCell.style.color = 'var(--table-text-color)';
+        horaCell.style.textAlign = 'right';
+        horaCell.style.fontWeight = 'bold';
+        horaCell.style.fontSize = '0.9rem';
+        horaCell.style.verticalAlign = 'middle';
+        horaCell.style.borderBottom = '1px solid var(--table-border-color)';
+        row.appendChild(horaCell);
+        dias.forEach(dia => {
+          const cell = document.createElement('td');
+          cell.style.border = '1px solid #ddd';
+          cell.style.padding = '0.5rem';
+          cell.style.height = '60px';
+          cell.style.verticalAlign = 'top';
+          // Buscar clase en esta fecha y hora
+          const fechaISO = formatDateISO(dia);
+          const clase = clasesDemo.find(c => c.fecha === fechaISO && c.hora === hora && (filtro === 'todos' || c.instructor === filtro));
+          if (clase) {
+            // Aplica colores de disponibilidad: verde suave para disponible y rosa suave para no disponible
+            if (clase.estado === 'Disponible') {
+              cell.style.background = '#d1fae5';
+              cell.style.color = '#064e3b';
+              cell.style.borderLeft = '4px solid #059669';
+            } else {
+              cell.style.background = '#ffe4e6';
+              cell.style.color = '#881337';
+              cell.style.borderLeft = '4px solid #e11d48';
+            }
+            cell.style.borderRadius = '4px';
+            cell.style.cursor = 'pointer';
+            cell.innerHTML = `<strong>${clase.hora}</strong><br>${clase.instructor}`;
+            cell.onclick = () => mostrarDetalle(clase);
+          }
+          row.appendChild(cell);
+        });
+        tbody.appendChild(row);
+      });
+      tabla.appendChild(tbody);
+    }
+    function mostrarDetalle(clase) {
+      const panel = document.getElementById('detalle-clase');
+      const overlay = document.getElementById('overlay');
+      const texto = document.getElementById('detalle-texto');
+      texto.innerHTML = `<strong>Fecha:</strong> ${clase.fecha}<br><strong>Hora:</strong> ${clase.hora}<br><strong>Instructor:</strong> ${clase.instructor}<br><strong>Estado:</strong> ${clase.estado}` + (clase.alumno ? `<br><strong>Alumno asignado:</strong> ${clase.alumno}` : '');
+      const btnReservar = document.getElementById('btn-reservar');
+      const btnListaEspera = document.getElementById('btn-lista-espera');
+      if (clase.estado === 'Disponible') {
+        btnReservar.style.display = 'inline-block';
+        // Guardar clase seleccionada en variable global para reservar
+        window.claseSeleccionada = clase;
+        btnListaEspera.style.display = 'none';
+      } else {
+        btnReservar.style.display = 'none';
+        // Si la clase está llena, mostrar el botón para la lista de espera
+        btnListaEspera.style.display = 'inline-block';
+        // Guardar clase seleccionada para agregar a la lista de espera
+        window.claseSeleccionada = clase;
+      }
+      panel.style.display = 'block';
+      overlay.style.display = 'block';
+    }
+    function cerrarDetalle() {
+      document.getElementById('detalle-clase').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+    }
+    function reservarClase() {
+      if (window.claseSeleccionada) {
+        // Guardar información de la clase seleccionada en localStorage
+        localStorage.setItem('reservaFecha', window.claseSeleccionada.fecha);
+        localStorage.setItem('reservaHora', window.claseSeleccionada.hora);
+        localStorage.setItem('reservaInstructor', window.claseSeleccionada.instructor);
+        // Redirigir a la página de programar clase con datos precargados
+        window.location.href = 'programar_clase.html';
+      }
+    }
+
+  /**
+   * Agrega al usuario actual a la lista de espera para la clase
+   * seleccionada. Verifica que no haya duplicados y almacena la
+   * información en localStorage bajo la clave 'listaEspera'.
+   */
+  function agregarListaEspera() {
+    if (window.claseSeleccionada) {
+      // Guardar los datos de la clase seleccionada para prellenar el formulario
+      localStorage.setItem('reservaFecha', window.claseSeleccionada.fecha);
+      localStorage.setItem('reservaHora', window.claseSeleccionada.hora);
+      localStorage.setItem('reservaInstructor', window.claseSeleccionada.instructor);
+      // Redirigir a la página para crear una solicitud de lista de espera
+      window.location.href = 'crear_lista_espera.html';
+    }
+  }
+
+  /**
+   * Redirige al usuario a la página de creación de lista de espera.
+   * Guarda los datos de la clase seleccionada en localStorage para
+   * prellenar el formulario de espera.
+   */
+  function redirigirCrearLista() {
+    if (window.claseSeleccionada) {
+      localStorage.setItem('esperaFecha', window.claseSeleccionada.fecha);
+      localStorage.setItem('esperaHora', window.claseSeleccionada.hora);
+      localStorage.setItem('esperaInstructor', window.claseSeleccionada.instructor);
+      window.location.href = 'crear_lista_espera.html';
+    }
+  }
+
+    // Renderizar calendario al cargar
+    renderCalendario();
+  </script>
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Crear Paquetes de Clases</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="javascript:history.back()"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="javascript:history.back()">Regresar</a></li>
+        <li><a href="login.html">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h2 class="section-title">Administrar paquetes de clases</h2>
+    <p style="max-width:600px;margin:0 auto 2rem;text-align:center;">
+      A continuación se muestran los paquetes actualmente disponibles. Puedes agregar un nuevo paquete usando el formulario al final. Esta demo no guarda los datos de forma permanente, pero ilustra el flujo de trabajo.
+    </p>
+    <!-- Tabla de paquetes existentes -->
+    <div class="form-container">
+      <table style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:var(--primary-color); color:#fff;">
+            <th style="padding:0.5rem; text-align:left;">Nombre</th>
+            <th style="padding:0.5rem; text-align:center;">Sesiones</th>
+            <th style="padding:0.5rem; text-align:right;">Precio</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-paquetes">
+          <tr>
+            <td>1 clase</td>
+            <td style="text-align:center;">1</td>
+            <td style="text-align:right;">$220</td>
+          </tr>
+          <tr>
+            <td>5 clases</td>
+            <td style="text-align:center;">5</td>
+            <td style="text-align:right;">$1,100</td>
+          </tr>
+          <tr>
+            <td>10 clases</td>
+            <td style="text-align:center;">10</td>
+            <td style="text-align:right;">$2,200</td>
+          </tr>
+          <tr>
+            <td>15 clases</td>
+            <td style="text-align:center;">15</td>
+            <td style="text-align:right;">$3,300</td>
+          </tr>
+          <tr>
+            <td>30 clases</td>
+            <td style="text-align:center;">30</td>
+            <td style="text-align:right;">$6,600</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Formulario para agregar paquete -->
+    <div class="form-container" style="margin-top:2rem;">
+      <h3>Agregar nuevo paquete</h3>
+      <form onsubmit="agregarPaquete(event)">
+        <div class="form-group">
+          <label for="nombre-paquete">Nombre del paquete</label>
+          <input type="text" id="nombre-paquete" required />
+        </div>
+        <div class="form-group">
+          <label for="sesiones-paquete">Número de sesiones</label>
+          <input type="number" id="sesiones-paquete" min="1" required />
+        </div>
+        <div class="form-group">
+          <label for="precio-paquete">Precio (MXN)</label>
+          <input type="number" id="precio-paquete" min="1" required />
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="form-submit">Agregar paquete</button>
+          <a href="javascript:history.back()" class="form-submit" style="background:var(--accent-color);color:var(--dark-color);text-decoration:none;text-align:center;">Cancelar</a>
+        </div>
+      </form>
+      <div id="mensaje-paquete" class="message" style="display:none;"></div>
+    </div>
+  </section>
+  <script>
+    // Permite agregar una fila a la tabla con el nuevo paquete (demo)
+    function agregarPaquete(event) {
+      event.preventDefault();
+      const nombre = document.getElementById('nombre-paquete').value;
+      const sesiones = document.getElementById('sesiones-paquete').value;
+      const precio = document.getElementById('precio-paquete').value;
+      const tabla = document.getElementById('tabla-paquetes');
+      const fila = document.createElement('tr');
+      fila.innerHTML = `<td>${nombre}</td><td style="text-align:center;">${sesiones}</td><td style="text-align:right;">$${parseInt(precio).toLocaleString('es-MX')}</td>`;
+      tabla.appendChild(fila);
+      document.getElementById('mensaje-paquete').textContent = `Paquete “${nombre}” agregado correctamente.`;
+      document.getElementById('mensaje-paquete').style.display = 'block';
+      event.target.reset();
+    }
+  </script>
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

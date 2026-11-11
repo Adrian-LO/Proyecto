@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Registrar Instructor</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="registro.html">Registro</a></li>
+        <li><a href="login.html">Iniciar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">Registro de instructor</h2>
+    <!-- Lista de instructores existentes (datos de ejemplo) -->
+    <div class="form-container" style="margin-bottom:2rem;">
+      <h3>Instructores registrados</h3>
+      <table style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:var(--primary-color); color:#fff;">
+            <th style="padding:0.5rem; text-align:left;">Nombre</th>
+            <th style="padding:0.5rem; text-align:center;">Especialidades</th>
+            <th style="padding:0.5rem; text-align:center;">Experiencia</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Juan Pérez</td>
+            <td style="text-align:center;">Técnica, estilo libre</td>
+            <td style="text-align:center;">5 años</td>
+          </tr>
+          <tr>
+            <td>Ana Sánchez</td>
+            <td style="text-align:center;">Competencia, natación infantil</td>
+            <td style="text-align:center;">7 años</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="form-container">
+      <form>
+        <h3>Datos personales</h3>
+        <div class="form-group">
+          <label for="nombre-instructor">Nombre completo</label>
+          <input type="text" id="nombre-instructor" name="nombre-instructor" required />
+        </div>
+        <div class="form-group">
+          <label for="edad-instructor">Edad</label>
+          <input type="number" id="edad-instructor" name="edad-instructor" required min="18" />
+        </div>
+    <div class="form-group">
+      <label for="correo-instructor">Correo electrónico</label>
+      <input type="email" id="correo-instructor" name="correo-instructor" placeholder="ejemplo@correo.com" required />
+    </div>
+    <div class="form-group">
+      <label for="usuario-instructor">Nombre de usuario</label>
+      <input type="text" id="usuario-instructor" name="usuario-instructor" placeholder="usuario" required />
+    </div>
+        <div class="form-group">
+          <label for="telefono-principal-instructor">Teléfono principal</label>
+          <input type="tel" id="telefono-principal-instructor" name="telefono-principal-instructor" required />
+        </div>
+        <div class="form-group">
+          <label for="telefono-alterno-instructor">Teléfono alternativo</label>
+          <input type="tel" id="telefono-alterno-instructor" name="telefono-alterno-instructor" />
+        </div>
+        <div class="form-group">
+          <label for="direccion-instructor">Dirección</label>
+          <input type="text" id="direccion-instructor" name="direccion-instructor" required />
+        </div>
+
+        <h3>Datos profesionales</h3>
+        <div class="form-group">
+          <label for="experiencia-instructor">Años de experiencia</label>
+          <input type="number" id="experiencia-instructor" name="experiencia-instructor" required min="0" />
+        </div>
+        <div class="form-group">
+          <label for="certificaciones-instructor">Certificaciones</label>
+          <textarea id="certificaciones-instructor" name="certificaciones-instructor" rows="3" placeholder="Agrega certificaciones separadas por comas"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Especialidades</label>
+          <div style="display:flex; flex-wrap:wrap; gap:1rem;">
+            <label><input type="checkbox" name="especialidades" value="infantil" /> Natación infantil</label>
+            <label><input type="checkbox" name="especialidades" value="tecnica" /> Técnica</label>
+            <label><input type="checkbox" name="especialidades" value="competencia" /> Competencia</label>
+            <label><input type="checkbox" name="especialidades" value="aquafitness" /> Aquafitness</label>
+            <label><input type="checkbox" name="especialidades" value="estilo" /> Estilo libre</label>
+            <label><input type="checkbox" name="especialidades" value="condicion" /> Condición física</label>
+          </div>
+        </div>
+
+        <h3>Disponibilidad</h3>
+        <p class="message">Marca los días y horarios en los que puedes impartir clase (intervalos de 40 minutos entre las 15:00 y las 18:20).</p>
+        <div class="form-group">
+          <label>Días</label>
+          <div style="display:flex; flex-wrap:wrap; gap:1rem;">
+            <label><input type="checkbox" name="dias" value="lunes" /> Lunes</label>
+            <label><input type="checkbox" name="dias" value="martes" /> Martes</label>
+            <label><input type="checkbox" name="dias" value="miercoles" /> Miércoles</label>
+            <label><input type="checkbox" name="dias" value="jueves" /> Jueves</label>
+            <label><input type="checkbox" name="dias" value="viernes" /> Viernes</label>
+            <label><input type="checkbox" name="dias" value="sabado" /> Sábado</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Horarios disponibles</label>
+          <div style="display:flex; flex-wrap:wrap; gap:1rem;">
+            <label><input type="checkbox" name="horas" value="15:00" /> 15:00</label>
+            <label><input type="checkbox" name="horas" value="15:40" /> 15:40</label>
+            <label><input type="checkbox" name="horas" value="16:20" /> 16:20</label>
+            <label><input type="checkbox" name="horas" value="17:00" /> 17:00</label>
+            <label><input type="checkbox" name="horas" value="17:40" /> 17:40</label>
+            <label><input type="checkbox" name="horas" value="18:20" /> 18:20</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="dias-especiales">Días especiales (incluir fechas en las que no podrás asistir)</label>
+          <textarea id="dias-especiales" name="dias-especiales" rows="2" placeholder="Ejemplo: 02/04/2025, 18/05/2025..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="form-submit">Guardar</button>
+          <a href="index.html" class="form-submit" style="background:var(--accent-color);color:var(--dark-color);text-align:center; text-decoration:none;">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

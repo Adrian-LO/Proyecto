@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Iniciar Sesión</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="registro.html">Registro</a></li>
+        <li><a href="login.html">Iniciar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+
+    <section class="section">
+    <h2 class="section-title">Iniciar sesión</h2>
+    <div class="form-container">
+      <h3>Selecciona tu tipo de usuario</h3>
+      <!-- Conmutadores de roles: utiliza radio buttons ocultos con un estilo de switch -->
+      <form onsubmit="return iniciarSesion(event)">
+        <div class="role-switches">
+          <input type="radio" id="rol-profesor" name="rol" value="profesor" checked />
+          <label for="rol-profesor">
+            <span class="switch"></span>
+            <span class="title">Instructor</span>
+          </label>
+          <input type="radio" id="rol-cliente" name="rol" value="cliente" />
+          <label for="rol-cliente">
+            <span class="switch"></span>
+            <span class="title">Cliente</span>
+          </label>
+          <input type="radio" id="rol-administrador" name="rol" value="administrador" />
+          <label for="rol-administrador">
+            <span class="switch"></span>
+            <span class="title">Administrador</span>
+          </label>
+          <input type="radio" id="rol-recepcionista" name="rol" value="recepcionista" />
+          <label for="rol-recepcionista">
+            <span class="switch"></span>
+            <span class="title">Recepcionista</span>
+          </label>
+        </div>
+        <div class="form-group">
+          <label for="usuario">Usuario o correo electrónico</label>
+          <input type="text" id="usuario" name="usuario" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="form-submit">Ingresar</button>
+        </div>
+      </form>
+      <div class="form-actions" style="margin-top: 1rem;">
+        <a href="restaurar.html" style="color:var(--primary-color); text-decoration:underline;">¿Olvidaste tu contraseña?</a>
+        <a href="registro.html" style="color:var(--primary-color); text-decoration:underline;">¿No tienes cuenta? Regístrate</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+
+  <!-- Script para redireccionar al panel correspondiente según el rol seleccionado -->
+  <script>
+    /**
+     * Maneja el inicio de sesión en el lado del cliente. Valida que se haya
+     * seleccionado un rol y redirige a la página de inicio adecuada para cada
+     * tipo de usuario. En una aplicación real, aquí también se validaría
+     * el usuario y la contraseña contra la base de datos o servicio de
+     * autenticación.
+     *
+     * @param {Event} event El evento submit del formulario.
+     */
+    function iniciarSesion(event) {
+      event.preventDefault();
+      const rolSeleccionado = document.querySelector('input[name="rol"]:checked');
+      if (!rolSeleccionado) {
+        alert('Por favor selecciona tu tipo de usuario.');
+        return false;
+      }
+      const rol = rolSeleccionado.value;
+      const usuarioInput = document.getElementById('usuario').value.trim();
+      // Guardar información del usuario en localStorage para simular una sesión
+      const usuarioData = { usuario: usuarioInput, rol: rol };
+      localStorage.setItem('usuario', JSON.stringify(usuarioData));
+      // Si hay un paquete pendiente, redirigir a la compra tras el login
+      if (localStorage.getItem('pendientePaquete') === 'true') {
+        localStorage.removeItem('pendientePaquete');
+        window.location.href = 'comprar_paquetes.html';
+        return false;
+      }
+      // Redirigir según el rol
+      switch (rol) {
+        case 'administrador':
+          window.location.href = 'home_admin.html';
+          break;
+        case 'recepcionista':
+          window.location.href = 'home_recepcionista.html';
+          break;
+        case 'profesor':
+          window.location.href = 'home_instructor.html';
+          break;
+        case 'cliente':
+          window.location.href = 'home_cliente.html';
+          break;
+        default:
+          window.location.href = 'index.html';
+          break;
+      }
+      return false;
+    }
+  </script>
+</body>
+</html>

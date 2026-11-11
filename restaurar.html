@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Restablecer contraseña</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    // Controla el flujo de restablecimiento: solicitar correo, luego ingresar código y nueva contraseña
+    function mostrarPaso(dato) {
+      const paso1 = document.getElementById('paso1');
+      const paso2 = document.getElementById('paso2');
+      if (dato === 1) {
+        paso1.style.display = 'block';
+        paso2.style.display = 'none';
+      } else {
+        paso1.style.display = 'none';
+        paso2.style.display = 'block';
+      }
+    }
+  </script>
+</head>
+<body onload="mostrarPaso(1)">
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="registro.html">Registro</a></li>
+        <li><a href="login.html">Iniciar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">Restablecer contraseña</h2>
+    <div class="form-container">
+      <div id="paso1">
+        <h3>Solicitar código</h3>
+        <form onsubmit="event.preventDefault(); mostrarPaso(2);">
+          <div class="form-group">
+            <label for="correo-rest">Correo electrónico o usuario</label>
+            <input type="text" id="correo-rest" name="correo-rest" required />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="form-submit">Enviar código</button>
+          </div>
+        </form>
+      </div>
+      <div id="paso2" style="display:none;">
+        <h3>Introduce el código y tu nueva contraseña</h3>
+        <form>
+          <div class="form-group">
+            <label for="codigo">Código de verificación</label>
+            <input type="text" id="codigo" name="codigo" required />
+          </div>
+          <div class="form-group">
+            <label for="nueva-pass">Nueva contraseña</label>
+            <input type="password" id="nueva-pass" name="nueva-pass" required />
+          </div>
+          <div class="form-group">
+            <label for="confirm-pass">Confirmar contraseña</label>
+            <input type="password" id="confirm-pass" name="confirm-pass" required />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="form-submit">Restablecer</button>
+            <a href="login.html" class="form-submit" style="background:var(--accent-color);color:var(--dark-color);text-align:center; text-decoration:none;">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

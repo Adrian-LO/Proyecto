@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Registro de Alumno</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    /**
+     * Al cargar la página, las secciones de formulario están ocultas.
+     * La función mostrarFormulario se invoca al hacer clic en los
+     * botones de selección. Activa el formulario correspondiente y
+     * desactiva el resto.
+     */
+    function mostrarFormulario(tipo) {
+      const menor = document.getElementById('form-menor');
+      const adulto = document.getElementById('form-adulto');
+      menor.style.display = 'none';
+      adulto.style.display = 'none';
+      if (tipo === 'menor') {
+        menor.style.display = 'block';
+      } else if (tipo === 'adulto') {
+        adulto.style.display = 'block';
+      }
+      // Desplazar la vista al formulario seleccionado
+      document.getElementById('formulario').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="registro.html">Registro</a></li>
+        <li><a href="login.html">Iniciar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">Registro de alumno</h2>
+    <!-- Nota de privacidad para clientes -->
+    <!-- Esta sección de alumnos registrados se oculta en la versión pública por motivos de privacidad. Los listados detallados solo están disponibles para administradores, recepcionistas e instructores. -->
+    <div class="choice-buttons">
+      <button onclick="mostrarFormulario('menor')">Menor de edad</button>
+      <button onclick="mostrarFormulario('adulto')">Adulto</button>
+    </div>
+    <!-- Contenedor para formularios -->
+    <div id="formulario">
+      <!-- Formulario para alumnos menores -->
+      <div id="form-menor" class="form-container" style="display:none;">
+        <h3>Registro de menor de edad</h3>
+        <form>
+          <div class="form-group">
+            <label for="nombre-menor">Nombre completo</label>
+            <input type="text" id="nombre-menor" name="nombre-menor" required />
+          </div>
+          <div class="form-group">
+            <label for="correo-menor">Correo electrónico</label>
+            <input type="email" id="correo-menor" name="correo-menor" placeholder="ejemplo@correo.com" required />
+          </div>
+          <div class="form-group">
+            <label for="usuario-menor">Nombre de usuario</label>
+            <input type="text" id="usuario-menor" name="usuario-menor" placeholder="usuario" required />
+          </div>
+          <div class="form-group">
+            <label for="edad-menor">Edad</label>
+            <input type="number" id="edad-menor" name="edad-menor" required min="1" />
+          </div>
+          <div class="form-group">
+            <label for="tutor-menor">Nombre del tutor</label>
+            <input type="text" id="tutor-menor" name="tutor-menor" required />
+          </div>
+          <div class="form-group">
+            <label for="tel-principal-menor">Número de celular de emergencia</label>
+            <input type="tel" id="tel-principal-menor" name="tel-principal-menor" required />
+          </div>
+          <div class="form-group">
+            <label for="tel-secundario-menor">Número de contacto alterno</label>
+            <input type="tel" id="tel-secundario-menor" name="tel-secundario-menor" />
+          </div>
+          <div class="form-group">
+            <label for="direccion-menor">Dirección</label>
+            <input type="text" id="direccion-menor" name="direccion-menor" required />
+          </div>
+          <div class="form-group">
+            <label for="observaciones-menor">Observaciones (alergias, enfermedades, condiciones…)</label>
+            <textarea id="observaciones-menor" name="observaciones-menor" rows="3"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="form-submit">Guardar</button>
+            <a href="index.html" class="form-submit" style="background:var(--accent-color);color:var(--dark-color);text-align:center; text-decoration:none;">Cancelar</a>
+          </div>
+        </form>
+      </div>
+      <!-- Formulario para alumnos adultos -->
+      <div id="form-adulto" class="form-container" style="display:none;">
+        <h3>Registro de adulto</h3>
+        <form>
+          <div class="form-group">
+            <label for="nombre-adulto">Nombre completo</label>
+            <input type="text" id="nombre-adulto" name="nombre-adulto" required />
+          </div>
+          <div class="form-group">
+            <label for="correo-adulto">Correo electrónico</label>
+            <input type="email" id="correo-adulto" name="correo-adulto" placeholder="ejemplo@correo.com" required />
+          </div>
+          <div class="form-group">
+            <label for="usuario-adulto">Nombre de usuario</label>
+            <input type="text" id="usuario-adulto" name="usuario-adulto" placeholder="usuario" required />
+          </div>
+          <div class="form-group">
+            <label for="edad-adulto">Edad</label>
+            <input type="number" id="edad-adulto" name="edad-adulto" required min="1" />
+          </div>
+          <div class="form-group">
+            <label for="tel-principal-adulto">Número de teléfono</label>
+            <input type="tel" id="tel-principal-adulto" name="tel-principal-adulto" required />
+          </div>
+          <div class="form-group">
+            <label for="tel-secundario-adulto">Número de teléfono alternativo</label>
+            <input type="tel" id="tel-secundario-adulto" name="tel-secundario-adulto" />
+          </div>
+          <div class="form-group">
+            <label for="direccion-adulto">Dirección</label>
+            <input type="text" id="direccion-adulto" name="direccion-adulto" required />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="form-submit">Guardar</button>
+            <a href="index.html" class="form-submit" style="background:var(--accent-color);color:var(--dark-color);text-align:center; text-decoration:none;">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

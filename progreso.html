@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Progreso del Alumno</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="javascript:history.back()"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="javascript:history.back()">Regresar</a></li>
+        <li><a href="login.html">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h2 class="section-title">Progreso del alumno</h2>
+    <p style="max-width:700px;margin:0 auto 1.5rem;text-align:center;">
+      Consulta las notas de progreso y recomendaciones registradas por tus instructores. Selecciona tu nombre para ver los comentarios más recientes. Los datos mostrados son ejemplos.
+    </p>
+    <div class="form-container">
+      <div class="form-group">
+        <label for="progreso-alumno-select">Alumno</label>
+        <select id="progreso-alumno-select" onchange="mostrarNotas()">
+          <option value="" disabled selected>Selecciona tu nombre</option>
+          <option>Pedro Gómez</option>
+          <option>María López</option>
+        </select>
+      </div>
+      <div id="detalle-progreso" style="margin-top:1rem;"></div>
+    </div>
+  </section>
+  <script>
+    function mostrarNotas() {
+      const alumno = document.getElementById('progreso-alumno-select').value;
+      const cont = document.getElementById('detalle-progreso');
+      if (!alumno) return;
+      if (alumno === 'Pedro Gómez') {
+        cont.innerHTML = `
+          <h3>Notas de progreso para Pedro Gómez</h3>
+          <ul>
+            <li>10/12/2025 – Instructor Juan Pérez: Mejoró el estilo de crol y aguanta más tiempo bajo el agua.</li>
+            <li>12/12/2025 – Instructor Juan Pérez: Debe practicar patada de mariposa y respiración lateral.</li>
+          </ul>
+        `;
+      } else if (alumno === 'María López') {
+        cont.innerHTML = `
+          <h3>Notas de progreso para María López</h3>
+          <ul>
+            <li>08/12/2025 – Instructor Ana Sánchez: Excelente flotación, empezar con virajes sencillos.</li>
+            <li>11/12/2025 – Instructor Ana Sánchez: Fortalecer brazada de espalda y confianza en el agua profunda.</li>
+          </ul>
+        `;
+      }
+    }
+  </script>
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

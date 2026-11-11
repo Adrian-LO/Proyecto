@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Notas de Progreso</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="javascript:history.back()"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="javascript:history.back()">Regresar</a></li>
+        <li><a href="login.html">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h2 class="section-title">Registrar notas de progreso</h2>
+    <p style="max-width:700px;margin:0 auto 1.5rem;text-align:center;">
+      Los instructores pueden registrar observaciones y recomendaciones sobre el avance de cada alumno. Selecciona el alumno y la fecha de la clase para escribir tus notas. Esta demo no almacena datos permanentemente.
+    </p>
+    <div class="form-container">
+      <form onsubmit="guardarProgreso(event)">
+        <div class="form-group">
+          <label for="progreso-alumno">Alumno</label>
+          <select id="progreso-alumno" required>
+            <option value="" disabled selected>Selecciona un alumno</option>
+            <option>Pedro Gómez</option>
+            <option>María López</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="progreso-fecha">Fecha de la clase</label>
+          <input type="date" id="progreso-fecha" required />
+        </div>
+        <div class="form-group">
+          <label for="progreso-notas">Observaciones y recomendaciones</label>
+          <textarea id="progreso-notas" rows="4" placeholder="Escribe tus notas sobre el progreso del alumno"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="form-submit">Guardar notas</button>
+          <a href="javascript:history.back()" class="form-submit" style="background:var(--accent-color);color:var(--dark-color);text-decoration:none;text-align:center;">Cancelar</a>
+        </div>
+      </form>
+      <div id="mensaje-progreso" class="message" style="display:none;"></div>
+    </div>
+  </section>
+  <script>
+    function guardarProgreso(event) {
+      event.preventDefault();
+      const alumno = document.getElementById('progreso-alumno').value;
+      const fecha = document.getElementById('progreso-fecha').value;
+      const notas = document.getElementById('progreso-notas').value;
+      const mensaje = document.getElementById('mensaje-progreso');
+      mensaje.textContent = `Notas de progreso registradas para ${alumno} en la fecha ${fecha}.`;
+      mensaje.style.display = 'block';
+      event.target.reset();
+    }
+  </script>
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

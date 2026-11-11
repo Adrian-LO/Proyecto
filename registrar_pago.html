@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Registrar Pago</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="javascript:history.back()"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="javascript:history.back()">Regresar</a></li>
+        <li><a href="login.html">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h2 class="section-title">Registrar pago</h2>
+    <p style="max-width:600px;margin:0 auto 2rem;text-align:center;">
+      Completa el formulario para registrar el pago de un alumno. Elige al estudiante, selecciona el paquete o concepto de pago y el método de pago. Esta demo calcula automáticamente el total según el paquete elegido.
+    </p>
+    <div class="form-container">
+      <form onsubmit="registrarPago(event)">
+        <div class="form-group">
+          <label for="pago-alumno">Alumno</label>
+          <select id="pago-alumno" required>
+            <option value="" disabled selected>Selecciona un alumno</option>
+            <option>Pedro Gómez</option>
+            <option>María López</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="pago-paquete">Paquete / Concepto</label>
+          <select id="pago-paquete" onchange="actualizarTotal()" required>
+            <option value="" disabled selected>Selecciona un paquete</option>
+            <option value="220">1 clase – $220</option>
+            <option value="1100">5 clases – $1,100</option>
+            <option value="2200">10 clases – $2,200</option>
+            <option value="3300">15 clases – $3,300</option>
+            <option value="6600">30 clases – $6,600</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="metodo-pago">Método de pago</label>
+          <select id="metodo-pago" required>
+            <option value="" disabled selected>Selecciona un método</option>
+            <option>Efectivo</option>
+            <option>Tarjeta</option>
+            <option>Transferencia</option>
+          </select>
+        </div>
+        <!-- Contenedor dinámico para campos extra según el método de pago -->
+        <div id="pago-detalles" class="form-group" style="display:none;"></div>
+        <div class="form-group">
+          <label for="monto">Monto</label>
+          <input type="text" id="monto" readonly />
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="form-submit">Registrar pago</button>
+          <a href="javascript:history.back()" class="form-submit" style="background:var(--accent-color);color:var(--dark-color);text-decoration:none;text-align:center;">Cancelar</a>
+        </div>
+      </form>
+      <div id="mensaje-pago" class="message" style="display:none;"></div>
+    </div>
+  </section>
+  <script>
+    // Actualiza el campo monto según el paquete seleccionado.
+    function actualizarTotal() {
+      const select = document.getElementById('pago-paquete');
+      const monto = document.getElementById('monto');
+      const valor = select.value;
+      monto.value = valor ? `$${parseInt(valor).toLocaleString('es-MX')}` : '';
+    }
+
+    // Muestra campos extra en función del método de pago seleccionado
+    document.getElementById('metodo-pago').addEventListener('change', function() {
+      const metodo = this.value;
+      const detalles = document.getElementById('pago-detalles');
+      detalles.style.display = 'none';
+      detalles.innerHTML = '';
+      if (!metodo) return;
+      if (metodo === 'Tarjeta') {
+        detalles.style.display = 'block';
+        detalles.innerHTML = `
+          <label for="pago-tarjeta-nombre">Nombre en la tarjeta</label>
+          <input type="text" id="pago-tarjeta-nombre" placeholder="Nombre completo" required />
+          <label for="pago-tarjeta-numero">Número de tarjeta</label>
+          <input type="text" id="pago-tarjeta-numero" placeholder="xxxx-xxxx-xxxx-xxxx" required />
+          <label for="pago-tarjeta-expira">Fecha de expiración</label>
+          <input type="month" id="pago-tarjeta-expira" required />
+          <label for="pago-tarjeta-cvv">CVV</label>
+          <input type="text" id="pago-tarjeta-cvv" placeholder="123" required />
+        `;
+      } else if (metodo === 'Efectivo') {
+        detalles.style.display = 'block';
+        const orden = 'ORD-' + Math.floor(Math.random() * 90000 + 10000);
+        detalles.innerHTML = `<p>Entrega este número de orden en caja para realizar el cobro: <strong>${orden}</strong></p>`;
+      } else if (metodo === 'Transferencia') {
+        detalles.style.display = 'block';
+        detalles.innerHTML = `
+          <p>Realiza la transferencia a la cuenta 1234567890 del banco XYZ. Ingresa la referencia y sube el comprobante.</p>
+          <label for="pago-transfer-ref">Referencia de transferencia</label>
+          <input type="text" id="pago-transfer-ref" placeholder="Referencia" required />
+          <label for="pago-transfer-comp">Comprobante</label>
+          <input type="file" id="pago-transfer-comp" accept="image/*,.pdf" required />
+        `;
+      }
+    });
+    // Demo para registrar pago.
+    function registrarPago(event) {
+      event.preventDefault();
+      const alumno = document.getElementById('pago-alumno').value;
+      const paquete = document.getElementById('pago-paquete');
+      const paqueteTexto = paquete.options[paquete.selectedIndex].text;
+      const metodo = document.getElementById('metodo-pago').value;
+      const monto = document.getElementById('monto').value;
+      const mensaje = document.getElementById('mensaje-pago');
+      // Construir detalle según el método
+      let detalle = '';
+      if (metodo === 'Tarjeta') {
+        const nombre = document.getElementById('pago-tarjeta-nombre').value;
+        const numero = document.getElementById('pago-tarjeta-numero').value;
+        detalle = `Tarjeta terminada en ${numero.slice(-4)} a nombre de ${nombre}`;
+      } else if (metodo === 'Efectivo') {
+        detalle = document.getElementById('pago-detalles').innerText;
+      } else if (metodo === 'Transferencia') {
+        const ref = document.getElementById('pago-transfer-ref').value;
+        detalle = `Referencia ${ref}`;
+      }
+      mensaje.textContent = `Pago registrado: ${alumno} – ${paqueteTexto} por ${monto} (${metodo}). ${detalle}.`;
+      mensaje.style.display = 'block';
+      event.target.reset();
+      document.getElementById('monto').value = '';
+      document.getElementById('pago-detalles').style.display = 'none';
+      document.getElementById('pago-detalles').innerHTML = '';
+    }
+  </script>
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

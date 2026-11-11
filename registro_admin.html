@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Registro de Alumno (admin)</title>
+  <!-- Font Awesome para iconografía -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <!-- Hoja de estilos compartida -->
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    // Función para mostrar el formulario adecuado según la selección (menor o adulto)
+    function mostrarFormulario(tipo) {
+      const menor = document.getElementById('form-menor');
+      const adulto = document.getElementById('form-adulto');
+      menor.style.display = 'none';
+      adulto.style.display = 'none';
+      if (tipo === 'menor') {
+        menor.style.display = 'block';
+      } else if (tipo === 'adulto') {
+        adulto.style.display = 'block';
+      }
+      // Desplazar la vista al formulario seleccionado
+      document.getElementById('formulario').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="home_admin.html"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="home_admin.html">Panel</a></li>
+        <li><a href="index.html">Inicio público</a></li>
+        <li><a href="login.html">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">Registro de alumno</h2>
+    <!-- Lista de alumnos ya registrados (datos de ejemplo) para administradores y recepcionistas -->
+    <div class="form-container" style="margin-bottom:2rem;">
+      <h3>Alumnos registrados</h3>
+      <table style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:var(--primary-color); color:#fff;">
+            <th style="padding:0.5rem; text-align:left;">Nombre</th>
+            <th style="padding:0.5rem; text-align:center;">Edad</th>
+            <th style="padding:0.5rem; text-align:center;">Tutor</th>
+            <th style="padding:0.5rem; text-align:center;">Correo</th>
+            <th style="padding:0.5rem; text-align:center;">Usuario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pedro Gómez</td>
+            <td style="text-align:center;">12</td>
+            <td style="text-align:center;">María Gómez</td>
+            <td style="text-align:center;">pedro@example.com</td>
+            <td style="text-align:center;">pedro_g</td>
+          </tr>
+          <tr>
+            <td>María López</td>
+            <td style="text-align:center;">10</td>
+            <td style="text-align:center;">Carlos López</td>
+            <td style="text-align:center;">maria@example.com</td>
+            <td style="text-align:center;">maria_l</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="choice-buttons">
+      <button onclick="mostrarFormulario('menor')">Menor de edad</button>
+      <button onclick="mostrarFormulario('adulto')">Adulto</button>
+    </div>
+    <!-- Contenedor para formularios -->
+    <div id="formulario">
+      <!-- Formulario para alumnos menores -->
+      <div id="form-menor" class="form-container" style="display:none;">
+        <h3>Registro de menor de edad</h3>
+        <form>
+          <div class="form-group">
+            <label for="nombre-menor-admin">Nombre completo</label>
+            <input type="text" id="nombre-menor-admin" name="nombre-menor-admin" required />
+          </div>
+          <div class="form-group">
+            <label for="correo-menor-admin">Correo electrónico</label>
+            <input type="email" id="correo-menor-admin" name="correo-menor-admin" placeholder="ejemplo@correo.com" required />
+          </div>
+          <div class="form-group">
+            <label for="usuario-menor-admin">Nombre de usuario</label>
+            <input type="text" id="usuario-menor-admin" name="usuario-menor-admin" placeholder="usuario" required />
+          </div>
+          <div class="form-group">
+            <label for="edad-menor-admin">Edad</label>
+            <input type="number" id="edad-menor-admin" name="edad-menor-admin" required min="1" />
+          </div>
+          <div class="form-group">
+            <label for="tutor-menor-admin">Nombre del tutor</label>
+            <input type="text" id="tutor-menor-admin" name="tutor-menor-admin" required />
+          </div>
+          <div class="form-group">
+            <label for="tel-principal-menor-admin">Número de celular de emergencia</label>
+            <input type="tel" id="tel-principal-menor-admin" name="tel-principal-menor-admin" required />
+          </div>
+          <div class="form-group">
+            <label for="tel-secundario-menor-admin">Número de contacto alterno</label>
+            <input type="tel" id="tel-secundario-menor-admin" name="tel-secundario-menor-admin" />
+          </div>
+          <div class="form-group">
+            <label for="direccion-menor-admin">Dirección</label>
+            <input type="text" id="direccion-menor-admin" name="direccion-menor-admin" required />
+          </div>
+          <div class="form-group">
+            <label for="observaciones-menor-admin">Observaciones (alergias, enfermedades, condiciones…)</label>
+            <textarea id="observaciones-menor-admin" name="observaciones-menor-admin" rows="3"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="form-submit">Guardar</button>
+            <a href="home_admin.html" class="form-submit" style="background:var(--accent-color);color:var(--dark-color);text-align:center; text-decoration:none;">Cancelar</a>
+          </div>
+        </form>
+      </div>
+      <!-- Formulario para alumnos adultos -->
+      <div id="form-adulto" class="form-container" style="display:none;">
+        <h3>Registro de adulto</h3>
+        <form>
+          <div class="form-group">
+            <label for="nombre-adulto-admin">Nombre completo</label>
+            <input type="text" id="nombre-adulto-admin" name="nombre-adulto-admin" required />
+          </div>
+          <div class="form-group">
+            <label for="correo-adulto-admin">Correo electrónico</label>
+            <input type="email" id="correo-adulto-admin" name="correo-adulto-admin" placeholder="ejemplo@correo.com" required />
+          </div>
+          <div class="form-group">
+            <label for="usuario-adulto-admin">Nombre de usuario</label>
+            <input type="text" id="usuario-adulto-admin" name="usuario-adulto-admin" placeholder="usuario" required />
+          </div>
+          <div class="form-group">
+            <label for="edad-adulto-admin">Edad</label>
+            <input type="number" id="edad-adulto-admin" name="edad-adulto-admin" required min="1" />
+          </div>
+          <div class="form-group">
+            <label for="tel-principal-adulto-admin">Número de teléfono</label>
+            <input type="tel" id="tel-principal-adulto-admin" name="tel-principal-adulto-admin" required />
+          </div>
+          <div class="form-group">
+            <label for="tel-secundario-adulto-admin">Número de teléfono alternativo</label>
+            <input type="tel" id="tel-secundario-adulto-admin" name="tel-secundario-adulto-admin" />
+          </div>
+          <div class="form-group">
+            <label for="direccion-adulto-admin">Dirección</label>
+            <input type="text" id="direccion-adulto-admin" name="direccion-adulto-admin" required />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="form-submit">Guardar</button>
+            <a href="home_admin.html" class="form-submit" style="background:var(--accent-color);color:var(--dark-color);text-align:center; text-decoration:none;">Cancelar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

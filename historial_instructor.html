@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Historial de clases</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="javascript:history.back()"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="javascript:history.back()">Regresar</a></li>
+        <li><a href="login.html">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h2 class="section-title">Historial de clases</h2>
+    <p style="max-width:700px;margin:0 auto 1.5rem;text-align:center;">
+      Selecciona un alumno para revisar las clases que ha tomado y las observaciones de progreso registradas. Este historial es visible para los instructores, por lo que no se muestran los pagos.</p>
+    <div class="form-container">
+      <div class="form-group">
+        <label for="historial-instr-alumno">Alumno</label>
+        <select id="historial-instr-alumno" onchange="mostrarHistorialInstr()" required>
+          <option value="" disabled selected>Selecciona un alumno</option>
+          <option>Pedro Gómez</option>
+          <option>María López</option>
+        </select>
+      </div>
+      <div id="contenido-historial-instr" style="margin-top:1rem;"></div>
+    </div>
+  </section>
+  <script>
+    function mostrarHistorialInstr() {
+      const alumno = document.getElementById('historial-instr-alumno').value;
+      const cont = document.getElementById('contenido-historial-instr');
+      if (!alumno) return;
+      if (alumno === 'Pedro Gómez') {
+        cont.innerHTML = `
+          <h3>Clases tomadas</h3>
+          <ul>
+            <li>08/12/2025 – 11:00 – Instructor: Ana Sánchez – <strong>Observación:</strong> Mejoró técnica de brazada.</li>
+            <li>10/12/2025 – 09:00 – Instructor: Juan Pérez – <strong>Observación:</strong> Necesita practicar respiración.</li>
+            <li>12/12/2025 – 15:00 – Instructor: Juan Pérez – <strong>Observación:</strong> Excelente esfuerzo.</li>
+          </ul>
+        `;
+      } else if (alumno === 'María López') {
+        cont.innerHTML = `
+          <h3>Clases tomadas</h3>
+          <ul>
+            <li>07/12/2025 – 08:00 – Instructor: Juan Pérez – <strong>Observación:</strong> Se concentró en patada.</li>
+            <li>09/12/2025 – 16:00 – Instructor: Ana Sánchez – <strong>Observación:</strong> Trajo equipo completo.</li>
+            <li>11/12/2025 – 11:00 – Instructor: Ana Sánchez – <strong>Observación:</strong> Falta mejorar resistencia.</li>
+          </ul>
+        `;
+      }
+    }
+  </script>
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

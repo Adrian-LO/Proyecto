@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Facturación</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="javascript:history.back()"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="javascript:history.back()">Regresar</a></li>
+        <li><a href="login.html">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h2 class="section-title">Facturación</h2>
+    <p style="max-width:700px;margin:0 auto 1.5rem;text-align:center;">
+      Consulta facturas emitidas y genera nuevas facturas para tus pagos registrados. Introduce tus datos fiscales y selecciona el pago a facturar. Esta demo no envía archivos, pero muestra la estructura general.
+    </p>
+    <div class="form-container">
+      <h3>Facturas emitidas</h3>
+      <table style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:var(--primary-color); color:#fff;">
+            <th style="padding:0.5rem; text-align:left;">Folio</th>
+            <th style="padding:0.5rem; text-align:left;">Cliente</th>
+            <th style="padding:0.5rem; text-align:left;">Concepto</th>
+            <th style="padding:0.5rem; text-align:center;">Fecha</th>
+            <th style="padding:0.5rem; text-align:right;">Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>FAC-001</td>
+            <td>Pedro Gómez</td>
+            <td>5 clases</td>
+            <td style="text-align:center;">10/12/2025</td>
+            <td style="text-align:right;">$1,100</td>
+          </tr>
+          <tr>
+            <td>FAC-002</td>
+            <td>María López</td>
+            <td>10 clases</td>
+            <td style="text-align:center;">08/12/2025</td>
+            <td style="text-align:right;">$2,200</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="form-container" style="margin-top:2rem;">
+      <h3>Generar nueva factura</h3>
+      <form onsubmit="generarFactura(event)">
+        <div class="form-group">
+          <label for="factura-cliente">Cliente</label>
+          <select id="factura-cliente" required>
+            <option value="" disabled selected>Selecciona un cliente</option>
+            <option value="Pedro Gómez">Pedro Gómez</option>
+            <option value="María López">María López</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="factura-pago">Concepto de pago</label>
+          <select id="factura-pago" required>
+            <option value="" disabled selected>Selecciona un concepto</option>
+            <option value="1 clase – $220">1 clase – $220</option>
+            <option value="5 clases – $1,100">5 clases – $1,100</option>
+            <option value="10 clases – $2,200">10 clases – $2,200</option>
+            <option value="15 clases – $3,300">15 clases – $3,300</option>
+            <option value="30 clases – $6,600">30 clases – $6,600</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="factura-rfc">RFC</label>
+          <input type="text" id="factura-rfc" placeholder="Ej. ABCD123456XYZ" required />
+        </div>
+        <div class="form-group">
+          <label for="factura-correo">Correo para envío</label>
+          <input type="email" id="factura-correo" placeholder="ejemplo@correo.com" required />
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="form-submit">Generar factura</button>
+          <a href="javascript:history.back()" class="form-submit" style="background:var(--accent-color);color:var(--dark-color);text-decoration:none;text-align:center;">Cancelar</a>
+        </div>
+      </form>
+      <div id="mensaje-factura" class="message" style="display:none;"></div>
+    </div>
+  </section>
+  <script>
+    function generarFactura(event) {
+      event.preventDefault();
+      const cliente = document.getElementById('factura-cliente').value;
+      const concepto = document.getElementById('factura-pago').value;
+      const rfc = document.getElementById('factura-rfc').value;
+      const correo = document.getElementById('factura-correo').value;
+      const mensaje = document.getElementById('mensaje-factura');
+      mensaje.textContent = `Factura generada para ${cliente} (${concepto}). Se enviará al correo ${correo}. Folio: FAC-${String(Math.floor(Math.random()*900)+100)}`;
+      mensaje.style.display = 'block';
+      event.target.reset();
+    }
+
+    // Configura la página de facturación según el rol del usuario. Si el rol es "cliente",
+    // se restringe la selección de concepto de pago a compras registradas en localStorage
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        const usuarioStr = localStorage.getItem('usuario');
+        if (!usuarioStr) return;
+        const usuario = JSON.parse(usuarioStr);
+        if (usuario.rol === 'cliente') {
+          // Establecer el select de cliente al usuario actual y deshabilitar otras opciones
+          const clienteSelect = document.getElementById('factura-cliente');
+          clienteSelect.innerHTML = `<option selected>${usuario.usuario}</option>`;
+          clienteSelect.disabled = true;
+          // Obtener las compras realizadas por el cliente
+          const compras = JSON.parse(localStorage.getItem('compras') || '[]').filter(c => c.cliente === usuario.usuario);
+          const conceptoSelect = document.getElementById('factura-pago');
+          conceptoSelect.innerHTML = '';
+          if (compras.length > 0) {
+            conceptoSelect.innerHTML += '<option value="" disabled selected>Selecciona un concepto</option>';
+            compras.forEach(c => {
+              const valor = `${c.paquete} – $${c.monto}`;
+              const label = `${c.paquete} – $${c.monto.toLocaleString('es-MX')}`;
+              const option = document.createElement('option');
+              option.value = valor;
+              option.textContent = label;
+              conceptoSelect.appendChild(option);
+            });
+          } else {
+            // Si no hay compras, se deshabilita el select y se informa al cliente
+            const opt = document.createElement('option');
+            opt.value = '';
+            opt.textContent = 'No hay compras para facturar';
+            opt.disabled = true;
+            opt.selected = true;
+            conceptoSelect.appendChild(opt);
+            conceptoSelect.disabled = true;
+          }
+        }
+      } catch (err) {
+        console.error('Error al configurar facturación:', err);
+      }
+    });
+  </script>
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>

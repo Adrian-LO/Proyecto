@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaAgenda – Historial de Clases</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="javascript:history.back()"><img src="logo.png" alt="AquaAgenda" /></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="javascript:history.back()">Regresar</a></li>
+        <li><a href="login.html">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h2 class="section-title">Historial de clases y pagos</h2>
+    <p style="max-width:700px;margin:0 auto 1.5rem;text-align:center;">
+      Selecciona un alumno para ver el registro de las clases que ha tomado y los pagos realizados. Los datos mostrados son ejemplos para ilustrar el funcionamiento.
+    </p>
+    <div class="form-container">
+      <div class="form-group">
+        <label for="historial-alumno">Alumno</label>
+        <select id="historial-alumno" onchange="mostrarHistorial()" required>
+          <option value="" disabled selected>Selecciona un alumno</option>
+          <option>Pedro Gómez</option>
+          <option>María López</option>
+        </select>
+      </div>
+      <div id="contenido-historial" style="margin-top:1rem;"></div>
+    </div>
+  </section>
+  <script>
+    function mostrarHistorial() {
+      const alumno = document.getElementById('historial-alumno').value;
+      const cont = document.getElementById('contenido-historial');
+      if (!alumno) return;
+      if (alumno === 'Pedro Gómez') {
+        cont.innerHTML = `
+          <h3>Clases tomadas</h3>
+          <ul>
+            <li>08/12/2025 – 11:00 – Instructor: Ana Sánchez</li>
+            <li>10/12/2025 – 09:00 – Instructor: Juan Pérez</li>
+            <li>12/12/2025 – 15:00 – Instructor: Juan Pérez</li>
+          </ul>
+          <h3>Pagos realizados</h3>
+          <ul>
+            <li>5 clases – $1,100 – 10/12/2025</li>
+            <li>1 clase extra – $220 – 11/12/2025</li>
+          </ul>
+        `;
+      } else if (alumno === 'María López') {
+        cont.innerHTML = `
+          <h3>Clases tomadas</h3>
+          <ul>
+            <li>07/12/2025 – 08:00 – Instructor: Juan Pérez</li>
+            <li>09/12/2025 – 16:00 – Instructor: Ana Sánchez</li>
+            <li>11/12/2025 – 11:00 – Instructor: Ana Sánchez</li>
+          </ul>
+          <h3>Pagos realizados</h3>
+          <ul>
+            <li>10 clases – $2,200 – 08/12/2025</li>
+            <li>15 clases – $3,300 – 05/12/2025</li>
+          </ul>
+        `;
+      }
+    }
+  </script>
+  <footer>
+    <p>&copy; 2025 AquaAgenda – Escuela de Natación</p>
+    <p>Los Mochis, Sinaloa, México</p>
+  </footer>
+</body>
+</html>
